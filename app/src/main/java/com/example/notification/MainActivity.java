@@ -16,6 +16,8 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
 
     Button notificationButton;
+    public boolean isCancel = true;
+    public boolean activeRequest = false; //use boolean active request for notification
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,16 +37,30 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //notification code
-                NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this, "Notification1");
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this, "Notification1"); //Notification 1 can be universal
                 builder.setContentTitle("Warrior Dining");
                 builder.setContentText("Your food is available today!");
-                builder.setSmallIcon(R.drawable.ic_launcher_background); //pass new notification icon
-                builder.setAutoCancel(true);
+                builder.setSmallIcon(R.drawable.ic_launcher_background); //pass new notification icon if you fancy
+                builder.setAutoCancel(true); //something for pending intent or whatever
+                //boolean toggle
+
+                isCancel = !isCancel;
+                if (isCancel = false){
+                    activeRequest = true;
+                }
+                else {
+                    activeRequest = false;
+                }
+
+
+
 
                 //following notifies user
+                //use following code when api sends out matching menu item
                 NotificationManagerCompat managerCompat = NotificationManagerCompat.from(MainActivity.this);
 
                 //getting perms? don't know what this wants
+                /*
                 if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Consider calling
                     //    ActivityCompat#requestPermissions
@@ -55,10 +71,13 @@ public class MainActivity extends AppCompatActivity {
                     // for ActivityCompat#requestPermissions for more details.
                     return;
                 }
+                */
                 managerCompat.notify(1, builder.build()); //ID can be passed replace (1)
 
                                                   }
                                               }
-        );
-    }
+        );}
+
+
+
 }
